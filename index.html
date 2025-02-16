@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meeting Cost Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input {
+            margin: 10px;
+            width: 80px;
+        }
+        #cost {
+            font-size: 2em;
+            margin-top: 20px;
+        }
+        #startStopButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Meeting Cost Calculator</h1>
+<p>Enter the hourly rate for up to 9 participants:</p>
+<div id="inputFields">
+    <input type="number" id="rate1" placeholder="Rate 1" min="0">
+    <input type="number" id="rate2" placeholder="Rate 2" min="0">
+    <input type="number" id="rate3" placeholder="Rate 3" min="0">
+    <input type="number" id="rate4" placeholder="Rate 4" min="0">
+    <input type="number" id="rate5" placeholder="Rate 5" min="0">
+    <input type="number" id="rate6" placeholder="Rate 6" min="0">
+    <input type="number" id="rate7" placeholder="Rate 7" min="0">
+    <input type="number" id="rate8" placeholder="Rate 8" min="0">
+    <input type="number" id="rate9" placeholder="Rate 9" min="0">
+</div>
+<div id="cost">$0.00</div>
+<button id="startStopButton">Start</button>
+
+<script>
+    let totalCost = 0;
+    let rates = [];
+    let running = false;
+    let interval;
+
+    function calculateCost() {
+        rates = [];
+        for (let i = 1; i <= 9; i++) {
+            let rate = document.getElementById(`rate${i}`).value;
+            if (rate) {
+                rates.push(parseFloat(rate) / 3600);
+            }
+        }
+        totalCost = 0;
+    }
+
+    function updateCost() {
+        totalCost += rates.reduce((acc, rate) => acc + rate, 0);
+        document.getElementById('cost').innerText = `$${totalCost.toFixed(2)}`;
+    }
+
+    document.getElementById('startStopButton').addEventListener('click', () => {
+        if (!running) {
+            calculateCost();
+            interval = setInterval(updateCost, 1000);
+            document.getElementById('startStopButton').innerText = 'Stop';
+            running = true;
+        } else {
+            clearInterval(interval);
+            document.getElementById('startStopButton').innerText = 'Start';
+            running = false;
+        }
+    });
+</script>
+
+<h4>Created using Microsoft Copilot</h1>
+
+</body>
+</html>
+
